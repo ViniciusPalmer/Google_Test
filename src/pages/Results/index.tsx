@@ -1,26 +1,99 @@
+import {useState, useContext, useEffect} from 'react';
 import {ResultContainer,ResultData,SearchResult} from './styles';
+import {useRef} from 'react';
+
 
 import { Footer } from '../../components/Footer';
 import { ResultHeader } from './components/ResultsHeader';
 import { ResultCard } from './components/ResultCard';
 import {ResultContent} from './components/ResultContent';
+import {ResultContentMobile} from './components/ResultContentMobile';
 
-import ImgTest from '../../assets/ave_teste_REMOVER.jpg';
+import { NoResultsFound } from './components/NoResultsFound';
+import { AnimalsDataContext } from '../../contexts/animalData';
+import { SearchInputContext } from '../../contexts/searchInput';
 
-const lorem = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+interface IAnimal {
+    type: string;
+    id: number;
+    url: string;
+    title: string;
+    description: string;
+    image: string;
+};
 
-export function Result() {
+export function Results() {
+    const [foundResults, setFoundResults] = useState(false);
+    const [selectedCard, setSelectedCard] = useState<IAnimal | null>();
+    const [filteredAnimalsList, setFilteredAnimalsList] = useState<IAnimal[]>([]);
+    const {animalsData} = useContext(AnimalsDataContext);
+    const {searchInput} = useContext(SearchInputContext);
+
+    const windowWidth = useRef(window.innerWidth);
+    const currentScreenSize = windowWidth.current | 0;
+
+    async function filterBySearchTerm(searchTerm: string, data: IAnimal[]){
+        const filteredData = await data.filter((item) => 
+            item.title.toLowerCase().includes(searchTerm.toLowerCase())
+            || item.type.toLowerCase().includes(searchTerm.toLowerCase()));
+        setFilteredAnimalsList(filteredData);
+    }
+    
+    useEffect(()=>{
+        filterBySearchTerm(searchInput, animalsData);
+    },[searchInput])
+
+    useEffect(()=>{
+        if(filteredAnimalsList.length > 0 && searchInput){
+            setFoundResults(true);
+        }else{
+            setFoundResults(false);
+            setSelectedCard(null)
+        }
+    },[filteredAnimalsList]);
+
+    const handleCardSelected = (newState: IAnimal) => {
+        setSelectedCard(newState);
+      };
+
+    const renderSearchResultPage = () => {
+        return(
+            <>
+                <SearchResult>
+                    {filteredAnimalsList.map((animal)=>
+                        <ResultCard key={animal.id} animal={animal} setAnimal={handleCardSelected}/>)}
+                </SearchResult>
+                {selectedCard && <ResultContent animal={selectedCard}/>}
+            </>
+        )
+    };
+
+    const renderSearchResultPageMobile = () => {
+        return(
+            <SearchResult>
+             {filteredAnimalsList.map((animal)=>
+                        <ResultContentMobile key={animal.id} animal={animal} setAnimal={handleCardSelected}/>)}
+            </SearchResult>
+        )
+    };
+
+
+    const renderNoResultPage = () => {
+        return(<NoResultsFound searchText={'Bird'} suggestionList={['Dog, Cat, Shark']} />);
+    };
+
+    const handleScreen = () => {
+        if(!foundResults) return renderNoResultPage();
+
+        if(currentScreenSize > 800) return renderSearchResultPage();
+        else return renderSearchResultPageMobile();
+    }
+
     return(
         <ResultContainer>
             <ResultHeader/>
             <ResultData>
-                <SearchResult>
-                    <ResultCard URL={'https://allene.org'} title={'Bonga Shad'} description={lorem}/>
-                    <ResultCard URL={'https://allene.org'} title={'Bonga Shad'} description={lorem}/>
-                    <ResultCard URL={'https://allene.org'} title={'Bonga Shad'} description={lorem}/>
-                    <ResultCard URL={'https://allene.org'} title={'Bonga Shad'} description={lorem}/>
-                </SearchResult>
-                <ResultContent img={ImgTest} URL={'https://allene.org'} title={'Bonga Shad'} description={lorem}/>
+                {handleScreen()}
             </ResultData>
             <Footer />
         </ResultContainer>

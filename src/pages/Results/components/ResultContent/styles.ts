@@ -10,9 +10,14 @@ export const ResultCardContainer = styled.div`
     border: 1px solid ${props => props.theme['gray-150']};
 
     img{
-        width: 500px;
+        width: 100%;
         margin-bottom: 1rem;
+    }
 
+    @media(max-width: 800px){
+        max-width: 100%;
+        width:80vw;
+        padding: 1rem;
     }
 `;
 

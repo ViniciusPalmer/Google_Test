@@ -7,6 +7,8 @@ export const FooterContainer = styled.div`
     justify-content: space-between;
     padding: 1.5rem;
     background-color: ${props => props.theme['gray-050']};
+    position: fixed;
+    bottom: 0px;
 `;
 
 export const FooterText = styled.label`

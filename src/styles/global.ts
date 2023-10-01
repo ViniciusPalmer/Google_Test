@@ -12,6 +12,12 @@ export const GlobalStyle = createGlobalStyle`
     box-shadow: 0 0 0 1px ${props => props.theme['gray-100']}
 }
 
+input:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 body{
     background-color: ${props => props.theme['white']};
     color: ${props => props.theme['black']};

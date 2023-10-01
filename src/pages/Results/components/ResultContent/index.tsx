@@ -1,19 +1,26 @@
-import {ResultCardContainer, SpanContent,TittleText, } from './styles'
+import {ResultCardContainer, SpanContent,TittleText } from './styles'
 
-interface IResultContent{
-    img: string;
-    URL: string;
+interface IAnimal {
+    type: string;
+    id: number;
+    url: string;
     title: string;
     description: string;
+    image: string;
 };
 
-export function ResultContent({img, URL, title, description}: IResultContent ) {
+interface IResultContent{
+    animal: IAnimal;
+}
+
+
+export function ResultContent({animal}: IResultContent ) {
     return(
         <ResultCardContainer>
-            <img src={img} alt={title} />
-            <SpanContent>{URL}</SpanContent>
-            <TittleText href="#">{title}</TittleText>
-            <SpanContent>{description}</SpanContent>
+            <img src={animal.image} alt={animal.title} />
+            <SpanContent>{animal.url}</SpanContent>
+            <TittleText href="#">{animal.title}</TittleText>
+            <SpanContent>{animal.description}</SpanContent>
         </ResultCardContainer>
     )
 } 

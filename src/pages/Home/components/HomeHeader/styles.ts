@@ -12,6 +12,10 @@ export const HeaderContainer = styled.div`
 export const HeaderText = styled.h1`
     font-size: 1.5rem;
     font-weight: 100;
+
+    @media(max-width: 400px){
+        font-size: 1.0rem;
+    }
 `;
 
 export const IconsContainer = styled.div`

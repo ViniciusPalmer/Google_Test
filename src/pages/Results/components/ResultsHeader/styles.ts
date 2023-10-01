@@ -16,10 +16,15 @@ export const SearchContainer = styled.div`
     align-items: center;
     
     img{
-        height: 50px;
+        height: 3rem;
     }
+`;
 
-
+export const GoogleImg = styled.img`
+    cursor: pointer;
+    @media( max-width: 500px){
+        display: none;
+    }
 `;
 
 export const IconsContainer = styled.div`

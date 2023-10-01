@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as Dialog from '@radix-ui/react-dialog';
 
 export const ResultCardContainer = styled.div`
     display: flex;
@@ -15,7 +16,7 @@ export const URLText = styled.span`
     margin-bottom: 0.5rem;
 `;
 
-export const LinkText = styled.button`
+export const LinkButton = styled.button`
     font-size: 1.5rem;
     color: ${props => props.theme['blue-300']};
     margin-bottom: 0.7rem;
@@ -40,3 +41,22 @@ export const DescriptionText = styled.a`
         transition-duration: 0.3s;
     };
 `;
+
+export const Overlay = styled(Dialog.Overlay)`
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    inset: 0;
+    background: ${props => props.theme['translucid-black']};
+
+`;
+
+export const Content = styled(Dialog.Content)`
+    min-width: 32px;
+    border-radius: 6px;
+    background: ${props => props.theme['gray-100']};
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    `;

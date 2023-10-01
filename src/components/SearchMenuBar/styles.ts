@@ -4,6 +4,7 @@ export const SearchContainer = styled.form`
     width: 100%;
     display:flex;
     align-items: center;   
+    justify-content: center;
     min-height: 44px;
     background: ${props => props.theme['white']};
     border: 1px solid transparent;
@@ -11,6 +12,10 @@ export const SearchContainer = styled.form`
     border-radius: 24px;
     margin: 0 1.5rem;
     padding: 0 1rem;
+
+    @media(min-width: 700px){
+        min-width: 25rem;
+    }
 
     button{
         background: ${props => props.theme['white']};
@@ -21,19 +26,19 @@ export const SearchContainer = styled.form`
 
     input{
         width: 100%;
-        margin: 0px;
+        margin: 0 0.8rem 0 0;
         height: 100%;
         padding: 0px;
         border: none;
 
-        font-size: 2rem;
+        font-size: 1rem;
     }
 
     img{
-        width: 1.2rem;
+        width: 1rem;
 
         &:first-child{
-            margin-right: 0.2rem;
+            margin-right: 0.8rem;
         };
 
         &:hover{
