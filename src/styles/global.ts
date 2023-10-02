@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
 :focus {
     outline: 0;
-    box-shadow: 0 0 0 1px ${props => props.theme['gray-100']}
+    box-shadow: 0 0 0 1px ${(props) => props.theme["gray-100"]}
 }
 
 input:focus {
@@ -19,9 +19,10 @@ input:focus {
 }
 
 body{
-    background-color: ${props => props.theme['white']};
-    color: ${props => props.theme['black']};
+    background-color: ${(props) => props.theme["white"]};
+    color: ${(props) => props.theme["black"]};
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 body, input, textarea, button {
