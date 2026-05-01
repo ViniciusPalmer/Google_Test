@@ -1,11 +1,33 @@
 import { faker } from "@faker-js/faker";
-const getImage = () => faker.image.animals(644, 362, true);
-const getType = () => faker.animal.type();
+
+const animalTypes = [
+  "bear",
+  "bird",
+  "cat",
+  "cetacean",
+  "cow",
+  "crocodilia",
+  "dog",
+  "fish",
+  "horse",
+  "insect",
+  "lion",
+  "rabbit",
+  "rodent",
+  "snake",
+] as const;
+
+type AnimalType = (typeof animalTypes)[number];
+
+const getImage = () => faker.image.urlLoremFlickr({ category: "animals", width: 644, height: 362 });
+const getType = () => faker.helpers.arrayElement(animalTypes);
 const getUrl = () => faker.internet.url();
 const getText = () => faker.lorem.sentences();
-const getTitle = (type: string) => faker.animal[type]();
-const data = [...new Array(100)].map((item, index) => {
+const getTitle = (type: AnimalType) => faker.animal[type]();
+
+const data = Array.from({ length: 100 }, (_, index) => {
   const type = getType();
+
   return {
     type,
     id: index + 1,
@@ -15,4 +37,5 @@ const data = [...new Array(100)].map((item, index) => {
     image: getImage(),
   };
 });
+
 export default data;

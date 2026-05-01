@@ -23,12 +23,8 @@ export const AnimalsDataContext = createContext({} as IAnimalContextType);
 export function AnimalsDataProvider({ children }: IChildren) {
   const [animalsData, setAnimalsData] = useState<IAnimal[]>([]);
 
-  async function setData() {
-    const animals = await data;
-    setAnimalsData(animals);
-  }
   useEffect(() => {
-    setData();
+    setAnimalsData(data);
   }, []);
 
   return (

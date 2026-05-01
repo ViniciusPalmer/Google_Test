@@ -29,7 +29,7 @@ interface IAnimal {
 export function Results() {
   const [itemOffset, setItemOffset] = useState(0);
   const [foundResults, setFoundResults] = useState(false);
-  const [selectedCard, setSelectedCard] = useState<IAnimal | null>();
+  const [selectedCard, setSelectedCard] = useState<IAnimal | null>(null);
   const [filteredAnimalsList, setFilteredAnimalsList] = useState<IAnimal[]>([]);
   const { animalsData } = useContext(AnimalsDataContext);
   const { searchInput } = useContext(SearchInputContext);
@@ -41,8 +41,8 @@ export function Results() {
   const currentItems = filteredAnimalsList.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(filteredAnimalsList.length / itemsPerPage);
 
-  async function filterBySearchTerm(searchTerm: string, data: IAnimal[]) {
-    const filteredData = await data.filter(
+  function filterBySearchTerm(searchTerm: string, data: IAnimal[]) {
+    const filteredData = data.filter(
       (item) =>
         item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.type.toLowerCase().includes(searchTerm.toLowerCase())
@@ -52,7 +52,7 @@ export function Results() {
 
   useEffect(() => {
     filterBySearchTerm(searchInput, animalsData);
-  }, [searchInput]);
+  }, [animalsData, searchInput]);
 
   useEffect(() => {
     if (filteredAnimalsList.length > 0 && searchInput) {
