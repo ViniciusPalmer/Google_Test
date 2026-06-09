@@ -51,6 +51,15 @@ describe("ResultsRoute", () => {
     "min-h-screen bg-[radial-gradient(circle_at_18%_20%,rgba(124,255,124,0.22),transparent_28%),radial-gradient(circle_at_82%_18%,rgba(74,163,255,0.16),transparent_26%),linear-gradient(180deg,#06070B_0%,#0E1118_100%)] text-[#F8FAFC]";
   const alignedResultsWrapperClass =
     "mx-auto flex min-h-screen w-full max-w-[1064px] flex-col px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8";
+  const alignedResultsHeaderClass =
+    "rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_70%_10%,rgba(124,255,124,0.10),transparent_34%),linear-gradient(180deg,rgba(10,14,20,0.94)_0%,rgba(17,22,30,0.9)_100%)] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.34)]";
+  const alignedResultsHeaderLayoutClass =
+    "flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between";
+  const alignedBackButtonClass =
+    "flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-left text-[#F8FAFC] transition hover:border-[#7CFF7C]/50 hover:text-[#7CFF7C] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0E14]";
+  const alignedHelperTextClass = "mt-3 pl-1 text-sm text-[#8B95A7]";
+  const alignedResultsFrameClass =
+    "mt-6 flex flex-1 overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_88%_10%,rgba(124,255,124,0.12),transparent_32%),linear-gradient(180deg,#0A0E14_0%,#11161E_100%)] shadow-[0_30px_90px_rgba(0,0,0,0.4)]";
 
   it("renders the redesigned results shell with search and result content", () => {
     const { container } = render(
@@ -69,6 +78,18 @@ describe("ResultsRoute", () => {
     expect(screen.queryByText(/version 0\.1\.0/i)).not.toBeInTheDocument();
     expect(container.querySelector("main")).toHaveClass(alignedCanvasClass);
     expect(container.querySelector("main > div")).toHaveClass(alignedResultsWrapperClass);
+
+    const header = container.querySelector("header");
+    const headerLayout = header?.querySelector("div");
+    const backButton = screen.getByRole("button", { name: "Go to home" });
+    const helperText = screen.getByText("Search an animal in English");
+    const resultsFrame = container.querySelector("main > div > section");
+
+    expect(header).toHaveClass(alignedResultsHeaderClass);
+    expect(headerLayout).toHaveClass(alignedResultsHeaderLayoutClass);
+    expect(backButton).toHaveClass(alignedBackButtonClass);
+    expect(helperText).toHaveClass(alignedHelperTextClass);
+    expect(resultsFrame).toHaveClass(alignedResultsFrameClass);
 
     const details = screen.getByLabelText("Snow Leopard details");
     const activeButton = screen.getByRole("button", { name: "Snow Leopard" });

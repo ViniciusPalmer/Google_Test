@@ -18,7 +18,7 @@ export function ResultsRoute() {
       />
       <ResultsShell>
         <ResultsHeader />
-        <section className="mt-6 flex flex-1 overflow-hidden rounded-[36px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.98)_0%,rgba(2,6,23,0.96)_100%)] shadow-[0_18px_56px_rgba(2,6,23,0.36)]">
+        <section className="mt-6 flex flex-1 overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_88%_10%,rgba(124,255,124,0.12),transparent_32%),linear-gradient(180deg,#0A0E14_0%,#11161E_100%)] shadow-[0_30px_90px_rgba(0,0,0,0.4)]">
           <ResultsView
             animalsData={animalsData}
             searchInput={searchInput}
