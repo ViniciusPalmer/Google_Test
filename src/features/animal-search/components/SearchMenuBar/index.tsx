@@ -15,8 +15,8 @@ export function SearchMenuBar({ onSubmit, variant = "hero" }: SearchMenuBarProps
   const isHero = variant === "hero";
   const placeholder = isHero ? "Search an animal in English" : "Search an animal in English";
   const shellClassName = isHero
-    ? "w-full max-w-[560px] rounded-[1.75rem] border border-slate-200/90 bg-slate-50 p-4 shadow-[0_18px_44px_rgba(15,23,42,0.12)] transition-colors focus-within:border-lime-400 focus-within:shadow-[0_18px_44px_rgba(124,255,124,0.18)]"
-    : "w-full rounded-[1.75rem] border border-slate-200/90 bg-slate-50 px-4 py-3.5 shadow-[0_18px_44px_rgba(15,23,42,0.12)] transition-colors focus-within:border-lime-400 focus-within:shadow-[0_18px_44px_rgba(124,255,124,0.18)]";
+    ? "w-full max-w-[560px] rounded-[24px] bg-[#F8FAFC] p-[18px] text-[#0F172A] shadow-[0_16px_50px_rgba(124,255,124,0.13)] transition focus-within:ring-2 focus-within:ring-[#7CFF7C]/70 focus-within:ring-offset-2 focus-within:ring-offset-[#111827]"
+    : "w-full rounded-[22px] bg-[#F8FAFC] px-[18px] py-4 text-[#0F172A] shadow-[0_10px_34px_rgba(124,255,124,0.12)] transition focus-within:ring-2 focus-within:ring-[#7CFF7C]/70 focus-within:ring-offset-2 focus-within:ring-offset-[#0A0E14]";
 
   const resetSearch = () => {
     setSearchInput("");
@@ -33,7 +33,7 @@ export function SearchMenuBar({ onSubmit, variant = "hero" }: SearchMenuBarProps
         <button
           type="submit"
           aria-label="Submit search"
-          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-lime-300"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-[#0F172A] text-[#7CFF7C] transition hover:bg-[#111827] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8FAFC]"
         >
           <img className="h-4 w-4" src={SearchIcon} alt="" />
         </button>
@@ -42,7 +42,7 @@ export function SearchMenuBar({ onSubmit, variant = "hero" }: SearchMenuBarProps
         </label>
         <input
           id="search-input"
-          className="w-full rounded-xl border-none bg-transparent px-1 py-2 text-base text-slate-700 placeholder:text-slate-400 outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50"
+          className="w-full min-w-0 rounded-xl border-none bg-transparent px-1 py-2 text-base text-[#0F172A] placeholder:text-[#8B95A7] outline-none focus-visible:ring-0"
           placeholder={placeholder}
           type="text"
           value={searchInput}
@@ -51,7 +51,7 @@ export function SearchMenuBar({ onSubmit, variant = "hero" }: SearchMenuBarProps
         <button
           type="button"
           aria-label="Clear search"
-          className="flex h-11 w-11 items-center justify-center rounded-2xl text-slate-400 transition hover:bg-slate-200/70 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] text-[#64748B] transition hover:bg-slate-200/80 hover:text-[#0F172A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8FAFC]"
           onClick={resetSearch}
         >
           <img className="h-4 w-4" src={CloseIcon} alt="" />
@@ -59,8 +59,8 @@ export function SearchMenuBar({ onSubmit, variant = "hero" }: SearchMenuBarProps
       </div>
       {isHero ? (
         <div className="mt-4 flex items-center justify-between gap-4 text-sm">
-          <span className="text-slate-900">Try: lion, fox, dolphin</span>
-          <span className="rounded-full border border-slate-800 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-50">
+          <span className="text-[#0F172A]">Try: lion, fox, dolphin</span>
+          <span className="rounded-full border border-[#0F172A] bg-[#0F172A] px-3 py-2 text-xs font-semibold text-[#F8FAFC]">
             Press Enter
           </span>
         </div>
