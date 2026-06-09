@@ -3,10 +3,13 @@ import { describe, expect, it } from "@jest/globals";
 import { App } from "./app/App";
 
 describe("App", () => {
+  const alignedCanvasClass =
+    "min-h-screen bg-[radial-gradient(circle_at_18%_20%,rgba(124,255,124,0.22),transparent_28%),radial-gradient(circle_at_82%_18%,rgba(74,163,255,0.16),transparent_26%),linear-gradient(180deg,#06070B_0%,#0E1118_100%)] text-[#F8FAFC]";
+
   it("renders the home route", async () => {
     window.history.pushState({}, "", "/");
 
-    render(<App />);
+    const { container } = render(<App />);
 
     expect(screen.getByRole("status", { name: /loading page content/i })).toBeInTheDocument();
 
@@ -15,6 +18,7 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "Find animals instantly" })).toBeInTheDocument();
     expect(screen.getByText("Minimal input. Instant discovery. Built for curious minds.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Submit search" })).toBeInTheDocument();
+    expect(container.querySelector("main")).toHaveClass(alignedCanvasClass);
   });
 
   it("renders the results route", async () => {

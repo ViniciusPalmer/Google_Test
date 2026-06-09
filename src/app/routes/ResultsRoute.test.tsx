@@ -47,6 +47,11 @@ function ResultsRouteWithSearchState({ initialSearchInput }: { initialSearchInpu
 }
 
 describe("ResultsRoute", () => {
+  const alignedCanvasClass =
+    "min-h-screen bg-[radial-gradient(circle_at_18%_20%,rgba(124,255,124,0.22),transparent_28%),radial-gradient(circle_at_82%_18%,rgba(74,163,255,0.16),transparent_26%),linear-gradient(180deg,#06070B_0%,#0E1118_100%)] text-[#F8FAFC]";
+  const alignedResultsWrapperClass =
+    "mx-auto flex min-h-screen w-full max-w-[1064px] flex-col px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8";
+
   it("renders the redesigned results shell with search and result content", () => {
     const { container } = render(
       <MemoryRouter initialEntries={["/results"]}>
@@ -62,6 +67,8 @@ describe("ResultsRoute", () => {
 
     expect(screen.getByRole("textbox", { name: "Search" })).toBeInTheDocument();
     expect(screen.queryByText(/version 0\.1\.0/i)).not.toBeInTheDocument();
+    expect(container.querySelector("main")).toHaveClass(alignedCanvasClass);
+    expect(container.querySelector("main > div")).toHaveClass(alignedResultsWrapperClass);
 
     const details = screen.getByLabelText("Snow Leopard details");
     const activeButton = screen.getByRole("button", { name: "Snow Leopard" });
