@@ -91,6 +91,14 @@ describe("ResultsRoute", () => {
   const alignedMetadataLabelClass =
     "text-xs font-semibold uppercase tracking-[0.18em] text-[#8B95A7]";
   const alignedMetadataValueClass = "mt-2 text-base font-medium text-[#F8FAFC]";
+  const alignedNoResultsShellClass =
+    "flex min-h-[320px] w-full items-center justify-center rounded-[28px] border border-dashed border-white/10 bg-[#0F172A]/75 px-6 py-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.24)]";
+  const alignedNoResultsTitleClass = "text-xl font-semibold text-[#F8FAFC]";
+  const alignedNoResultsCopyClass = "mt-3 text-sm leading-6 text-[#AAB3C5]";
+  const alignedNoResultsSuggestionLabelClass =
+    "text-sm font-semibold uppercase tracking-[0.18em] text-[#8B95A7]";
+  const alignedNoResultsSuggestionButtonClass =
+    "rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-[#F8FAFC] transition hover:border-[#7CFF7C]/50 hover:bg-[#7CFF7C]/10 hover:text-[#7CFF7C] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]";
 
   it("renders the redesigned results shell with search and result content", () => {
     const { container } = render(
@@ -184,9 +192,24 @@ describe("ResultsRoute", () => {
   it("recovers from no results by composing suggestion selection through search state", () => {
     render(<ResultsRouteWithSearchState initialSearchInput="penguin" />);
 
-    expect(screen.getByText("No matches found for penguin.")).toBeInTheDocument();
+    const noResultsTitle = screen.getByText("No matches found for penguin.");
+    const noResultsShell = noResultsTitle.closest("section");
+    const noResultsCopy = screen.getByText(
+      "Try a broader term or browse one of the available animal types from the local dataset."
+    );
+    const suggestionLabel = screen.getByText("Try one of these animal types:");
+    const suggestionButton = screen.getByRole("button", { name: "species" });
 
-    fireEvent.click(screen.getByRole("button", { name: "species" }));
+    expect(noResultsTitle).toBeInTheDocument();
+    expect(noResultsShell).toHaveAttribute("class", alignedNoResultsShellClass);
+    expect(noResultsShell).toHaveAttribute("role", "status");
+    expect(noResultsShell).toHaveAttribute("aria-live", "polite");
+    expect(noResultsTitle).toHaveAttribute("class", alignedNoResultsTitleClass);
+    expect(noResultsCopy).toHaveAttribute("class", alignedNoResultsCopyClass);
+    expect(suggestionLabel).toHaveAttribute("class", alignedNoResultsSuggestionLabelClass);
+    expect(suggestionButton).toHaveAttribute("class", alignedNoResultsSuggestionButtonClass);
+
+    fireEvent.click(suggestionButton);
 
     expect(screen.getByDisplayValue("species")).toBeInTheDocument();
     expect(screen.getByRole("status")).toHaveTextContent("About 2 results");
