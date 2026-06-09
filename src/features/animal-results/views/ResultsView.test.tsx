@@ -161,12 +161,39 @@ describe("ResultsView", () => {
     expect(handleSuggestionSelect).toHaveBeenCalledWith("species");
   });
 
-  it("expands and collapses inline mobile details from the same trigger", () => {
+  it("expanded inline mobile details preserve result card semantics and styling", () => {
     setViewportWidth(480);
 
     render(<ResultsView animalsData={animals} searchInput="animal" />);
 
     const animalButton = screen.getByRole("button", { name: "Animal 1" });
+    const animalCard = animalButton.closest("article");
+
+    expect(animalCard).toHaveAttribute(
+      "class",
+      "mb-4 w-full rounded-[22px] border p-5 text-left transition-colors border-white/10 bg-[#0F172A]/85 hover:border-[#7CFF7C]/30 hover:bg-[#111827]/80"
+    );
+    expect(animalCard).toContainElement(animalButton);
+    expect(screen.getByText("Animal 1 summary")).toHaveAttribute(
+      "class",
+      "mb-3 inline-flex rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#AAB3C5]"
+    );
+    expect(animalButton).toHaveAttribute(
+      "class",
+      "mb-2 bg-transparent text-left text-2xl font-semibold text-[#F8FAFC] transition-colors hover:text-[#7CFF7C] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F172A]"
+    );
+    expect(screen.getByText("Animal 1 habitat")).toHaveAttribute(
+      "class",
+      "mb-4 text-sm font-medium text-[#AAB3C5]"
+    );
+    expect(screen.getByText("Animal 1 description")).toHaveAttribute(
+      "class",
+      "mb-4 text-base leading-7 text-[#AAB3C5]"
+    );
+    expect(screen.getByText("6 years").parentElement).toHaveAttribute(
+      "class",
+      "flex flex-wrap gap-3 text-sm text-[#8B95A7]"
+    );
 
     expect(animalButton).toHaveAttribute("aria-expanded", "false");
     expect(animalButton).not.toHaveAttribute("aria-controls");
@@ -174,6 +201,10 @@ describe("ResultsView", () => {
 
     fireEvent.click(animalButton);
 
+    expect(animalCard).toHaveAttribute(
+      "class",
+      "mb-4 w-full rounded-[22px] border p-5 text-left transition-colors border-[#7CFF7C]/40 bg-[#111827] shadow-[0_20px_50px_rgba(0,0,0,0.32)]"
+    );
     expect(animalButton).toHaveAttribute("aria-expanded", "true");
     expect(animalButton).toHaveAttribute("aria-controls", "animal-details-1");
     expect(screen.getByLabelText("Animal 1 details")).toBeInTheDocument();
