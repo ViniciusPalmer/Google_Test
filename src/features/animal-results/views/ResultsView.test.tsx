@@ -40,13 +40,23 @@ describe("ResultsView", () => {
   });
 
   it("selects the first filtered result by default on desktop", () => {
-    render(<ResultsView animalsData={animals} searchInput="animal" />);
+    const { container } = render(<ResultsView animalsData={animals} searchInput="animal" />);
 
     expect(screen.getByRole("status")).toHaveTextContent("About 5 results");
+    expect(container.firstChild).toHaveClass("flex h-full w-full flex-col p-5 sm:p-6 lg:p-8");
+    expect(container.firstChild?.firstChild).toHaveClass(
+      "flex flex-1 flex-col gap-6 lg:flex-row lg:items-start lg:gap-7"
+    );
+    expect(screen.getByRole("status")).toHaveClass("mb-5 text-sm font-medium text-[#8B95A7]");
 
     const detail = screen.getByLabelText("Animal 1 details");
     const activeButton = screen.getByRole("button", { name: "Animal 1" });
+    const [resultsColumn, detailsColumn] = Array.from(container.querySelectorAll("section"));
 
+    expect(resultsColumn).toHaveClass(
+      "flex w-full min-w-0 flex-1 flex-col items-start lg:max-w-[560px] lg:flex-[0_0_560px]"
+    );
+    expect(detailsColumn).toHaveClass("w-full min-w-0 lg:flex-1");
     expect(within(detail).getByText("Selected result")).toBeInTheDocument();
     expect(within(detail).getByRole("heading", { name: "Animal 1" })).toBeInTheDocument();
     expect(within(detail).getByText("Animal 1 habitat")).toBeInTheDocument();
@@ -69,6 +79,28 @@ describe("ResultsView", () => {
     expect(screen.queryByRole("button", { name: "Animal 5" })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Page 1 is your current page" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Page 2" })).toBeInTheDocument();
+  });
+
+  it("uses the themed pagination classes on desktop", () => {
+    const { container } = render(<ResultsView animalsData={animals} searchInput="species" />);
+
+    const pagination = container.querySelector("ul");
+    const firstPage = screen.getByRole("button", { name: "Page 1 is your current page" }).closest("li");
+    const nextPage = screen.getByRole("button", { name: "Page 2" }).closest("li");
+    const previousPage = screen.getByRole("button", { name: "Previous page" }).closest("li");
+    const nextControl = screen.getByRole("button", { name: "Next page" }).closest("li");
+
+    expect(pagination).toHaveClass("mt-2 flex flex-wrap items-center gap-2 text-sm text-[#AAB3C5]");
+    expect(nextPage).toHaveClass(
+      "flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0F172A] transition hover:border-[#7CFF7C]/60 hover:text-[#7CFF7C]"
+    );
+    expect(firstPage).toHaveClass("border-[#7CFF7C] bg-[#7CFF7C]/10 font-semibold text-[#7CFF7C]");
+    expect(previousPage).toHaveClass(
+      "flex h-10 min-w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0F172A] px-3 transition hover:border-[#7CFF7C]/60 hover:text-[#7CFF7C] opacity-40"
+    );
+    expect(nextControl).toHaveClass(
+      "flex h-10 min-w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0F172A] px-3 transition hover:border-[#7CFF7C]/60 hover:text-[#7CFF7C]"
+    );
   });
 
   it("selects the first item on the new page when pagination changes", () => {
@@ -150,6 +182,22 @@ describe("ResultsView", () => {
 
     expect(animalButton).toHaveAttribute("aria-expanded", "false");
     expect(screen.queryByLabelText("Animal 1 details")).not.toBeInTheDocument();
+  });
+
+  it("uses the themed pagination classes on mobile", () => {
+    setViewportWidth(480);
+
+    const { container } = render(<ResultsView animalsData={animals} searchInput="species" />);
+
+    const pagination = container.querySelector("ul");
+    const firstPage = screen.getByRole("button", { name: "Page 1 is your current page" }).closest("li");
+    const nextPage = screen.getByRole("button", { name: "Page 2" }).closest("li");
+
+    expect(pagination).toHaveClass("mt-2 flex flex-wrap items-center gap-2 text-sm text-[#AAB3C5]");
+    expect(nextPage).toHaveClass(
+      "flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-[#0F172A] transition hover:border-[#7CFF7C]/60 hover:text-[#7CFF7C]"
+    );
+    expect(firstPage).toHaveClass("border-[#7CFF7C] bg-[#7CFF7C]/10 font-semibold text-[#7CFF7C]");
   });
 
   it("keeps the mobile result markup through the tablet band below the lg layout breakpoint", () => {
