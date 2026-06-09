@@ -70,7 +70,7 @@ describe("ResultsRoute", () => {
     "flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-3 text-left text-[#F8FAFC] transition hover:border-[#7CFF7C]/50 hover:text-[#7CFF7C] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7CFF7C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0E14]";
   const alignedHelperTextClass = "mt-3 pl-1 text-sm text-[#8B95A7]";
   const alignedResultsFrameClass =
-    "mt-6 flex flex-1 overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_88%_10%,rgba(124,255,124,0.12),transparent_32%),linear-gradient(180deg,#0A0E14_0%,#11161E_100%)] shadow-[0_30px_90px_rgba(0,0,0,0.4)]";
+    "mt-6 flex flex-1 rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_88%_10%,rgba(124,255,124,0.12),transparent_32%),linear-gradient(180deg,#0A0E14_0%,#11161E_100%)] shadow-[0_30px_90px_rgba(0,0,0,0.4)] lg:overflow-hidden";
   const alignedDetailArticleClass =
     "w-full rounded-[26px] border border-white/10 bg-[radial-gradient(circle_at_85%_8%,rgba(124,255,124,0.13),transparent_30%),linear-gradient(180deg,#101723_0%,#131C2A_100%)] p-5 shadow-[0_18px_52px_rgba(0,0,0,0.32)] lg:sticky lg:top-6 lg:p-[22px]";
   const alignedDetailImageClass = "mb-6 h-64 w-full rounded-[22px] object-cover";
@@ -129,6 +129,8 @@ describe("ResultsRoute", () => {
     expect(backButton).toHaveClass(alignedBackButtonClass);
     expect(helperText).toHaveClass(alignedHelperTextClass);
     expect(resultsFrame).toHaveClass(alignedResultsFrameClass);
+    expect(resultsFrame).not.toHaveClass("overflow-hidden");
+    expect(resultsFrame).toHaveClass("lg:overflow-hidden");
 
     const details = screen.getByLabelText("Snow Leopard details");
     const activeButton = screen.getByRole("button", { name: "Snow Leopard" });
